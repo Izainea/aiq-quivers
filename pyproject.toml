@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=68.0", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aiq-quivers"
+version = "1.0.0"
+description = "Impact Automata on Quivers (AIQ) — An algebraic framework for modeling dynamics on complex systems"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    {name = "Isaac Zainea Maya", email = "izaineam@unal.edu.co"},
+    {name = "Agustín Moreno Cañadas", email = "amoreno@unal.edu.co"},
+]
+keywords = [
+    "quivers", "graph-theory", "algebraic-combinatorics",
+    "brauer-configuration", "citation-networks", "automata",
+    "path-algebra", "impact-dynamics", "complex-systems",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.21",
+    "scipy>=1.7",
+    "matplotlib>=3.5",
+    "networkx>=2.6",
+    "sympy>=1.9",
+    "pandas>=1.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+notebooks = [
+    "jupyter>=1.0",
+    "ipywidgets>=8.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Izainea/aiq-quivers"
+Documentation = "https://github.com/Izainea/aiq-quivers#readme"
+Issues = "https://github.com/Izainea/aiq-quivers/issues"
+
+[tool.setuptools.packages.find]
+include = ["aiq*"]
+
+[tool.setuptools.package-data]
+aiq = ["../data/*.json", "../data/cora/*", "../data/cit-hepph/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+
+[tool.setuptools]
+py-modules = []

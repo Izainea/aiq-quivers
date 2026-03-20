@@ -1,0 +1,1042 @@
+{
+  "metadata": {
+    "description": "Red de citaciones de Agustín Moreno Cañadas et al. para análisis de Brauer.",
+    "author_focus": "Agustín Moreno Cañadas",
+    "source": "ProyectoCitaciones — referencias extraídas de los artículos publicados",
+    "instruction": "Pwords son los papers-multisets. Ordenar por orden de publicación en las secuencias de sucesores.",
+    "brauer_interpretation": {
+      "vertices_Gamma0": "Elementos del conjunto M = unión de todas las referencias (reference_pool)",
+      "polygons_Gamma1": "Los 17 artículos de Cañadas (papers), cada uno es un multiconjunto de sus referencias",
+      "orientation_O": "Orden cronológico por año de publicación dentro de cada secuencia de sucesores",
+      "multiplicity_mu": "Derivada de la frecuencia de aparición: mu(m)=1 si val(m)*mu(m)>1, mu(m)=2 si val(m)=1"
+    }
+  },
+  "papers": [
+    {
+      "id": "canadas2021mcnugget",
+      "title": "Relationships between the Chicken McNugget Problem, Mutations of Brauer Configuration Algebras and the Advanced Encryption Standard",
+      "authors": ["Cañadas, A.M.", "Gaviria, I.D.M.", "Vega, J.D.C."],
+      "year": 2021,
+      "journal": "Mathematics",
+      "volume": "9",
+      "pages": "1937",
+      "doi": "10.3390/math9161937",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "espinosa_2020",
+        "sierra_2018", "assem_2006", "agudelo_2021_01brauer",
+        "andrews_2010", "stanley_1999"
+      ]
+    },
+    {
+      "id": "osorio2021emerging",
+      "title": "Building Emerging Images with Tiled Orders and Posets",
+      "authors": ["Osorio Angarita, M.A.", "Moreno Cañadas, A.", "Marín Gaviria, I.D."],
+      "year": 2021,
+      "journal": "Mathematics",
+      "volume": "9",
+      "pages": "2536",
+      "doi": "10.3390/math9202536",
+      "references": [
+        "canadas_vanegas_2013", "koffka_1935", "kanizsa_1980",
+        "mitra_2007", "von_ahn_2003", "von_ahn_2004", "von_ahn_2008",
+        "baird_2005", "canadas_espinosa_2013", "turing_1950",
+        "naor_1996", "goodfellow_2014", "green_schroll_2011"
+      ]
+    },
+    {
+      "id": "agudelo2021_01brauer",
+      "title": "{0,1}-Brauer Configuration Algebras and Their Applications in Graph Energy Theory",
+      "authors": ["Agudelo Muñetón, N.", "Cañadas, A.M.", "Espinosa, P.F.F.", "Gaviria, I.D.M."],
+      "year": 2021,
+      "journal": "Mathematics",
+      "volume": "9",
+      "pages": "3042",
+      "doi": "10.3390/math9233042",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "canadas2021mcnugget",
+        "espinosa_2020", "sierra_2018", "gutman_1978", "nikiforov_2007",
+        "kharaghany_2008", "nikiforov_2017", "davey_2002",
+        "coulson_1978", "assem_2006"
+      ]
+    },
+    {
+      "id": "canadas2022wargaming",
+      "title": "Wargaming with Quadratic Forms and Brauer Configuration Algebras",
+      "authors": ["Moreno Cañadas, A.", "Fernández Espinosa, P.F.F.", "Bravo Ríos, G."],
+      "year": 2022,
+      "journal": "Mathematics",
+      "volume": "10",
+      "pages": "729",
+      "doi": "10.3390/math10050729",
+      "references": [
+        "green_schroll_2011", "sierra_2018", "canadas2021mcnugget",
+        "espinosa_2020", "assem_2006", "erdos_1973",
+        "erickson_2009", "perla_1985", "schroll_2018",
+        "ringel_2016", "canadas_angarita_2021_crypto"
+      ]
+    },
+    {
+      "id": "canadas2022categorification",
+      "title": "Categorification of Integer Sequences via Brauer Configuration Algebras and the Four Subspace Problem",
+      "authors": ["Moreno Cañadas, A.", "Fernández Espinosa, P.F.F.", "Agudelo Muñetón, N."],
+      "year": 2022,
+      "journal": "Mathematics",
+      "volume": "10",
+      "pages": "1315",
+      "doi": "10.3390/math10081315",
+      "references": [
+        "fahr_ringel_2008a", "fahr_ringel_2008b", "ringel_2016",
+        "assem_2006", "green_schroll_2011", "schroll_2018",
+        "espinosa_2020", "canadas2021mcnugget", "sierra_2018",
+        "zavadskij_1977", "gelfand_1970", "brenner_1967",
+        "brenner_1974", "stanley_1999"
+      ]
+    },
+    {
+      "id": "canadas2022dyck",
+      "title": "Brauer Configuration Algebras Arising from Dyck Paths",
+      "authors": ["Cañadas, A.M.", "Ríos, G.B.", "Gaviria, I.D.M."],
+      "year": 2022,
+      "journal": "Mathematics",
+      "volume": "10",
+      "pages": "1378",
+      "doi": "10.3390/math10091378",
+      "references": [
+        "stanley_1999", "caldero_2006", "canadas_gaviria_2021_dyck",
+        "green_schroll_2011", "espinosa_2020", "canadas2021mcnugget",
+        "schroll_2018", "sierra_2018", "sapir_2014",
+        "ufnarovskij_1990", "belov_1997", "lee_oh_2018"
+      ]
+    },
+    {
+      "id": "canadas2022snakegraphs",
+      "title": "Snake Graphs Arising from Groves with an Application in Coding Theory",
+      "authors": ["Moreno Cañadas, A.", "Ríos, G.B.", "Serna, R.-J."],
+      "year": 2022,
+      "journal": "Computation",
+      "volume": "10",
+      "pages": "124",
+      "doi": "10.3390/computation10070124",
+      "references": [
+        "propp_2020", "canakci_schiffler_2018", "canakci_schiffler_2020",
+        "canakci_schiffler_2013", "canakci_schiffler_2015",
+        "canakci_schiffler_2017", "musiker_2011",
+        "canakci_schroll_2021", "green_schroll_2011", "schroll_2018",
+        "canadas2021mcnugget", "canadas_espinosa_2022_kronecker",
+        "assem_2006", "andrews_2010", "sierra_2018"
+      ]
+    },
+    {
+      "id": "osorio2022cayley",
+      "title": "Cayley Hash Values of Brauer Messages and Some of Their Applications in the Solutions of Systems of Differential Equations",
+      "authors": ["Osorio Angarita, M.A.", "Cañadas, A.M.", "Fúneme, C.C.", "Mendez, O.M.", "Serna, R.-J."],
+      "year": 2022,
+      "journal": "Computation",
+      "volume": "10",
+      "pages": "164",
+      "doi": "10.3390/computation10090164",
+      "references": [
+        "stinson_2019", "sosnovski_2016", "espinosa_2020",
+        "green_schroll_2011", "canadas2022wargaming",
+        "canadas2021mcnugget", "green_schroll_2017_varieties",
+        "zemor_1991", "tillich_1994a", "tillich_1994b",
+        "charles_2007", "petit_2009", "lubotzky_1988"
+      ]
+    },
+    {
+      "id": "canadas2023yangbaxter",
+      "title": "Solutions of the Yang-Baxter Equation Arising from Brauer Configuration Algebras",
+      "authors": ["Cañadas, A.M.", "Ballester-Bolinches, A.", "Gaviria, I.D.M."],
+      "year": 2023,
+      "journal": "Computation",
+      "volume": "11",
+      "pages": "2",
+      "doi": "10.3390/computation11010002",
+      "references": [
+        "yang_1967", "baxter_1972", "cedo_2014", "nichita_2012",
+        "nichita_2015", "massuyeau_2005", "kauffman_2004",
+        "turaev_1988", "rump_2006", "rump_2007",
+        "ballester_2021", "green_schroll_2011", "canadas2021mcnugget",
+        "canadas2022snakegraphs", "agudelo_2021_01brauer",
+        "espinosa_2020"
+      ]
+    },
+    {
+      "id": "canadas2023kronecker",
+      "title": "Solutions of the Yang-Baxter Equation and Automatically Related to Kronecker Modules",
+      "authors": ["Cañadas, A.M.", "Fernández Espinosa, P.F.F.", "Ballester-Bolinches, A."],
+      "year": 2023,
+      "journal": "Computation",
+      "volume": "11",
+      "pages": "43",
+      "doi": "10.3390/computation11030043",
+      "references": [
+        "dergachev_2000", "assem_2006", "green_schroll_2011",
+        "schroll_2018", "canadas2021mcnugget",
+        "canadas_espinosa_2022_kronecker", "sierra_2018",
+        "espinosa_2020", "canadas2023yangbaxter"
+      ]
+    },
+    {
+      "id": "canadas2023seaweeds",
+      "title": "Seaweeds Arising from Brauer Configuration Algebras",
+      "authors": ["Cañadas, A.M.", "Mendez, O."],
+      "year": 2023,
+      "journal": "Mathematics",
+      "volume": "11",
+      "pages": "1961",
+      "doi": "10.3390/math11081961",
+      "references": [
+        "seo_yee_2020", "coll_2015_3", "coll_2015_4",
+        "coll_2020", "tauvel_2004", "joseph_2006", "stolin_1991",
+        "gerstenhaber_2008", "belavin_1982", "magnant_2011",
+        "green_schroll_2011", "schroll_2018",
+        "canadas2023yangbaxter", "canadas2022snakegraphs",
+        "agudelo_2021_01brauer", "canadas_angarita_2021_crypto",
+        "espinosa_2020"
+      ]
+    },
+    {
+      "id": "canadas2023openshop",
+      "title": "An Algebraic Approach to the Solutions of the Open Shop Scheduling Problem",
+      "authors": ["Cañadas, A.M.", "Mendez, O.M.", "Riaño-Rojas, J.-C.", "Hormaza, J.-D."],
+      "year": 2023,
+      "journal": "Computation",
+      "volume": "11",
+      "pages": "94",
+      "doi": "10.3390/computation11050094",
+      "references": [
+        "grinshpoun_2017", "gonzalez_1976", "fiala_1983",
+        "taillard_1993", "green_schroll_2011", "canadas2021mcnugget",
+        "schroll_2018", "espinosa_2020"
+      ]
+    },
+    {
+      "id": "canadas2023malware",
+      "title": "Algebraic Structures Induced by the Insertion and Detection of Malware",
+      "authors": ["Cañadas, A.M.", "Mendez, O.M.", "Vega, J.D.C."],
+      "year": 2023,
+      "journal": "Computation",
+      "volume": "11",
+      "pages": "140",
+      "doi": "10.3390/computation11070140",
+      "references": [
+        "green_schroll_2011", "sierra_2018",
+        "canadas_angarita_2021_crypto", "agudelo_2021_01brauer",
+        "assem_2006", "espinosa_2020", "canadas2021mcnugget",
+        "schroll_2018"
+      ]
+    },
+    {
+      "id": "canadas2024cayley_nilpotent",
+      "title": "Brauer Analysis of Some Cayley and Nilpotent Graphs and Its Application in Quantum Entanglement Theory",
+      "authors": ["Cañadas, A.M.", "Gutiérrez, I.", "Mendez, O.M."],
+      "year": 2024,
+      "journal": "Symmetry",
+      "volume": "16",
+      "pages": "570",
+      "doi": "10.3390/sym16050570",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "sierra_2018",
+        "canadas2021mcnugget", "espinosa_2020",
+        "canadas_gaviria_espinosa_2024_extended",
+        "bolanos_2011", "belov_rowen_vishne_2021",
+        "assem_2006", "auslander_1995", "davey_2002",
+        "gabriel_1972", "smith_1970", "van_mieghem_2015",
+        "pugliese_2017"
+      ]
+    },
+    {
+      "id": "canadas2024partitions_coverings",
+      "title": "Brauer Configuration Algebras Induced by Integer Partitions and Their Applications in the Theory of Branched Coverings",
+      "authors": ["Cañadas, A.M.", "Rodríguez-Nieto, J.G.", "Salazar Díaz, O.P."],
+      "year": 2024,
+      "journal": "Mathematics",
+      "volume": "12",
+      "pages": "3626",
+      "doi": "10.3390/math12223626",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "espinosa_2020",
+        "canadas2024cayley_nilpotent",
+        "canadas_gaviria_espinosa_2024_extended",
+        "canadas2021mcnugget", "ringel_2016",
+        "edmonds_1984", "hurwitz_1891", "sierra_2018",
+        "agudelo_2021_01brauer", "canadas_angarita_2021_crypto",
+        "canadas2023yangbaxter", "andrews_2010",
+        "stanley_1999", "da_costa_2021"
+      ]
+    },
+    {
+      "id": "canadas2025tmto",
+      "title": "Brauer Analysis of Some Time-Memory Trade-Off Attacks and Its Application to the Solution of the Yang-Baxter Equation",
+      "authors": ["Cañadas, A.M.", "Gutiérrez, I.", "Mendez, O.M.", "Sarazola-Alzate, A.", "Zuluaga-Moreno, J.A."],
+      "year": 2025,
+      "journal": "Symmetry",
+      "volume": "17",
+      "pages": "391",
+      "doi": "10.3390/sym17030391",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "sierra_2018",
+        "canadas2021mcnugget", "espinosa_2020",
+        "canadas2024cayley_nilpotent",
+        "canadas2024partitions_coverings",
+        "assem_2006", "canadas2023yangbaxter"
+      ]
+    },
+    {
+      "id": "canadas2025rodriguez_thompson",
+      "title": "Brauer Analysis of Thompson's Group F and Its Application to the Solutions of Some Yang-Baxter Equations",
+      "authors": ["Cañadas, A.M.", "Rodríguez-Nieto, J.G.", "Salazar-Díaz, O.P.", "Velásquez, R.", "Giraldo, H."],
+      "year": 2025,
+      "journal": "Mathematics",
+      "volume": "13",
+      "pages": "1127",
+      "doi": "10.3390/math13071127",
+      "references": [
+        "green_schroll_2011", "schroll_2018", "sierra_2018",
+        "canadas2021mcnugget", "espinosa_2020",
+        "canadas2024partitions_coverings",
+        "assem_2006", "gabriel_1972"
+      ]
+    }
+  ],
+  "reference_pool": {
+    "green_schroll_2011": {
+      "title": "Brauer configuration algebras: A generalization of Brauer graph algebras",
+      "authors": ["Green, E.L.", "Schroll, S."],
+      "year": 2011,
+      "journal": "Inf. Sci.",
+      "volume": "181",
+      "pages": "57-78"
+    },
+    "schroll_2018": {
+      "title": "Brauer Graph Algebras",
+      "authors": ["Schroll, S."],
+      "year": 2018,
+      "journal": "CRM Short Courses",
+      "pages": "177-223"
+    },
+    "sierra_2018": {
+      "title": "The dimension of the center of a Brauer configuration algebra",
+      "authors": ["Sierra, A."],
+      "year": 2018,
+      "journal": "J. Algebra",
+      "volume": "510",
+      "pages": "289-318"
+    },
+    "espinosa_2020": {
+      "title": "Categorification of Some Integer Sequences and Its Applications",
+      "authors": ["Espinosa, P.F.F."],
+      "year": 2020,
+      "journal": "Ph.D. Thesis, Universidad Nacional de Colombia"
+    },
+    "assem_2006": {
+      "title": "Elements of the Representation Theory of Associative Algebras",
+      "authors": ["Assem, I.", "Skowronski, A.", "Simson, D."],
+      "year": 2006,
+      "journal": "Cambridge University Press"
+    },
+    "andrews_2010": {
+      "title": "The Theory of Partitions",
+      "authors": ["Andrews, G.E."],
+      "year": 2010,
+      "journal": "Cambridge University Press"
+    },
+    "stanley_1999": {
+      "title": "Enumerative Combinatorics",
+      "authors": ["Stanley, R.P."],
+      "year": 1999,
+      "journal": "Cambridge University Press, Volume 2"
+    },
+    "ringel_2016": {
+      "title": "Catalan combinatorics of the hereditary artin algebras",
+      "authors": ["Ringel, C.M."],
+      "year": 2016,
+      "journal": "Contemp. Math.",
+      "volume": "673",
+      "pages": "51-177"
+    },
+    "gabriel_1972": {
+      "title": "Unzerlegbare Darstellungen I",
+      "authors": ["Gabriel, P."],
+      "year": 1972,
+      "journal": "Manuscripta Math.",
+      "volume": "6",
+      "pages": "71-103"
+    },
+    "davey_2002": {
+      "title": "Introduction to Lattices and Order",
+      "authors": ["Davey, B.A.", "Priestley, H.A."],
+      "year": 2002,
+      "journal": "Cambridge University Press, 2nd ed."
+    },
+    "auslander_1995": {
+      "title": "Representation Theory of Artin Algebras",
+      "authors": ["Auslander, M.", "Reiten, I.", "Smalø, S.O."],
+      "year": 1995,
+      "journal": "Cambridge University Press"
+    },
+    "edmonds_1984": {
+      "title": "Realizability of Branched Coverings of Surfaces",
+      "authors": ["Edmonds, A.L.", "Kulkarni, R.S.", "Stong, R.E."],
+      "year": 1984,
+      "journal": "Trans. Am. Math. Soc.",
+      "volume": "282",
+      "pages": "773-790"
+    },
+    "hurwitz_1891": {
+      "title": "Über Riemannsche Fläche mit Gegebenen Verzweigungspunkten",
+      "authors": ["Hurwitz, A."],
+      "year": 1891,
+      "journal": "Math. Ann.",
+      "volume": "39",
+      "pages": "1-60"
+    },
+    "da_costa_2021": {
+      "title": "An introduction to multisets",
+      "authors": ["da Costa, F.L."],
+      "year": 2021,
+      "journal": "arXiv:2110.12902"
+    },
+    "agudelo_2021_01brauer": {
+      "title": "{0,1}-Brauer configuration algebras and their applications in the graph energy theory",
+      "authors": ["Agudelo, N.", "Cañadas, A.M.", "Gaviria, I.D.M.", "Espinosa, P.F.F."],
+      "year": 2021,
+      "journal": "Mathematics",
+      "volume": "9",
+      "pages": "3042"
+    },
+    "canadas_angarita_2021_crypto": {
+      "title": "Brauer configuration algebras for multimedia based cryptography and security applications",
+      "authors": ["Cañadas, A.M.", "Angarita, M.A.O."],
+      "year": 2021,
+      "journal": "Multimed. Tools Appl.",
+      "volume": "80",
+      "pages": "23485-23510"
+    },
+    "canadas_espinosa_2022_kronecker": {
+      "title": "Brauer configuration algebras defined by snake graphs and Kronecker modules",
+      "authors": ["Cañadas, A.M.", "Espinosa, P.F.F.", "Muñetón, N.A."],
+      "year": 2022,
+      "journal": "Electron. Res. Arch.",
+      "volume": "30",
+      "pages": "3087-3110"
+    },
+    "canadas_gaviria_espinosa_2024_extended": {
+      "title": "Extended Brauer Analysis of Some Dynkin and Euclidean Diagrams",
+      "authors": ["Cañadas, A.M.", "Espinosa, P.F.F.", "Nieto, J.G.R.", "Mendez, O.M.", "Arteaga-Bastidas, R.H."],
+      "year": 2024,
+      "journal": "Electron. Res. Arch.",
+      "volume": "32",
+      "pages": "5752-5782"
+    },
+    "canadas_gaviria_2021_dyck": {
+      "title": "Coxeter's frieze patterns arising from Dyck paths",
+      "authors": ["Cañadas, A.M.", "Gaviria, I.D.M.", "Espinosa, P.F.F.", "Ríos, G.B."],
+      "year": 2021,
+      "journal": "Ric. Mat."
+    },
+    "gutman_1978": {
+      "title": "The energy of a graph",
+      "authors": ["Gutman, I."],
+      "year": 1978,
+      "journal": "Ber. Math. Statist. Sekt. Forschungszentrum Graz",
+      "volume": "103",
+      "pages": "1-22"
+    },
+    "nikiforov_2007": {
+      "title": "The energy of graphs and matrices",
+      "authors": ["Nikiforov, V."],
+      "year": 2007,
+      "journal": "J. Math. Anal. Appl.",
+      "volume": "326",
+      "pages": "1472-1475"
+    },
+    "kharaghany_2008": {
+      "title": "On the energy of (0,1)-matrices",
+      "authors": ["Kharaghany, H.", "Tayfeh-Rezaie, B."],
+      "year": 2008,
+      "journal": "Linear Algebra Appl.",
+      "volume": "429",
+      "pages": "2046-2051"
+    },
+    "nikiforov_2017": {
+      "title": "On the minimum trace norm/energy of (0,1)-matrices",
+      "authors": ["Nikiforov, V.", "Agudelo, N."],
+      "year": 2017,
+      "journal": "Linear Algebra Appl.",
+      "volume": "526",
+      "pages": "42-59"
+    },
+    "coulson_1978": {
+      "title": "Hückel Theory for Organic Chemists",
+      "authors": ["Coulson, C.A.", "O'Leary, B.", "Mallion, R.B."],
+      "year": 1978,
+      "journal": "Academic Press, London"
+    },
+    "yang_1967": {
+      "title": "Some exact results for the many-body problem in one dimension with repulsive delta-function interaction",
+      "authors": ["Yang, C.N."],
+      "year": 1967,
+      "journal": "Phys. Rev. Lett.",
+      "volume": "19",
+      "pages": "1312-1315"
+    },
+    "baxter_1972": {
+      "title": "Partition function for the eight-vertex lattice model",
+      "authors": ["Baxter, R.J."],
+      "year": 1972,
+      "journal": "Ann. Phys.",
+      "volume": "70",
+      "pages": "193-228"
+    },
+    "ballester_2021": {
+      "title": "The structure group and the permutation group of a set-theoretical solution of the quantum Yang-Baxter equation",
+      "authors": ["Ballester-Bolinches, A.", "Esteban-Romero, R.", "Fuster-Corral, N.", "Meng, H."],
+      "year": 2021,
+      "journal": "Mediterr. J. Math.",
+      "volume": "18",
+      "pages": "1347-1364"
+    },
+    "rump_2006": {
+      "title": "Modules over braces",
+      "authors": ["Rump, W."],
+      "year": 2006,
+      "journal": "Algebra Discret. Math.",
+      "volume": "2",
+      "pages": "127-137"
+    },
+    "rump_2007": {
+      "title": "Braces, radical rings, and the quantum Yang-Baxter equation",
+      "authors": ["Rump, W."],
+      "year": 2007,
+      "journal": "J. Algebra",
+      "volume": "307",
+      "pages": "153-170"
+    },
+    "fahr_ringel_2008a": {
+      "title": "Categorification of the Fibonacci numbers using representations of quivers",
+      "authors": ["Fahr, P.", "Ringel, C.M."],
+      "year": 2008,
+      "journal": "J. Integer Seq.",
+      "volume": "11",
+      "pages": "12.2.1"
+    },
+    "fahr_ringel_2008b": {
+      "title": "A partition formula for Fibonacci numbers",
+      "authors": ["Fahr, P.", "Ringel, C.M."],
+      "year": 2008,
+      "journal": "J. Integer. Seq.",
+      "volume": "11",
+      "pages": "08.1.4"
+    },
+    "caldero_2006": {
+      "title": "Quivers with relations arising from clusters (A_n case)",
+      "authors": ["Caldero, P.", "Chapoton, F.", "Schiffler, R."],
+      "year": 2006,
+      "journal": "Trans. Am. Math. Soc.",
+      "volume": "358",
+      "pages": "1347-1364"
+    },
+    "gelfand_1970": {
+      "title": "Problems of linear algebra and classification of quadruples of subspaces in a finite dimensional vector space",
+      "authors": ["Gelfand, I.M.", "Ponomarev, V.A."],
+      "year": 1970,
+      "journal": "Coll. Math. Spc. Bolyai",
+      "volume": "5",
+      "pages": "163-237"
+    },
+    "zavadskij_1977": {
+      "title": "Semimaximal rings of finite type",
+      "authors": ["Zavadskij, A.G.", "Kiričenko, V.V."],
+      "year": 1977,
+      "journal": "Math. USSR Sb.",
+      "volume": "103",
+      "pages": "323-345"
+    },
+    "brenner_1967": {
+      "title": "Endomorphism algebras of vector spaces with distinguished sets of subspaces",
+      "authors": ["Brenner, S."],
+      "year": 1967,
+      "journal": "J. Algebra",
+      "volume": "6",
+      "pages": "100-114"
+    },
+    "brenner_1974": {
+      "title": "On four subspaces of a vector space",
+      "authors": ["Brenner, S."],
+      "year": 1974,
+      "journal": "J. Algebra",
+      "volume": "29",
+      "pages": "587-599"
+    },
+    "sapir_2014": {
+      "title": "Combinatorial Algebra: Syntax and Semantics",
+      "authors": ["Sapir, M.V."],
+      "year": 2014,
+      "journal": "Springer Monographs in Mathematics"
+    },
+    "ufnarovskij_1990": {
+      "title": "Combinatorial and asymptotic methods in algebra",
+      "authors": ["Ufnarovskij, V.A."],
+      "year": 1990,
+      "journal": "Algebra VI. Encycl. Math. Sci.",
+      "volume": "57",
+      "pages": "1-196"
+    },
+    "belov_1997": {
+      "title": "Monomial algebras",
+      "authors": ["Belov, A.Y.", "Borisenko, V.V.", "Latyshev, V.N."],
+      "year": 1997,
+      "journal": "J. Math. Sci. (N. Y.)",
+      "volume": "87",
+      "pages": "3463-3575"
+    },
+    "lee_oh_2018": {
+      "title": "Catalan triangle numbers and binomial coefficients",
+      "authors": ["Lee, K.H.", "Oh, S.J."],
+      "year": 2018,
+      "journal": "Contemp. Math. Am. Math. Soc.",
+      "volume": "713",
+      "pages": "165-185"
+    },
+    "canadas_vanegas_2013": {
+      "title": "Representations of posets to generate emerging images",
+      "authors": ["Cañadas, A.M.", "Vanegas, N.P."],
+      "year": 2013,
+      "journal": "Far East J. Math. Sci.",
+      "volume": "2013 Pt II",
+      "pages": "139-152"
+    },
+    "canadas_espinosa_2013": {
+      "title": "Representations of a tetrad to generate emerging images",
+      "authors": ["Cañadas, A.M.", "Espinosa, P.F.F.", "Gaviria"],
+      "year": 2013,
+      "journal": "Far East J. Math. Sci.",
+      "volume": "2013 Pt II",
+      "pages": "173-184"
+    },
+    "koffka_1935": {
+      "title": "Principles of Gestalt Psychology",
+      "authors": ["Koffka, K."],
+      "year": 1935,
+      "journal": "Harcourt, Brace and Company, New York"
+    },
+    "kanizsa_1980": {
+      "title": "Grammatica del Vedere",
+      "authors": ["Kanizsa, G."],
+      "year": 1980,
+      "journal": "Società Editrice Il Mulino, Bologna"
+    },
+    "mitra_2007": {
+      "title": "Emerging Images",
+      "authors": ["Mitra, N.J.", "Chu, H.K.", "Lee, T.Y.", "Wolf, L.", "Yeshurun, H.", "Cohen-Or, D."],
+      "year": 2007,
+      "journal": "ACM Trans. Graph.",
+      "volume": "28",
+      "pages": "1-8"
+    },
+    "von_ahn_2003": {
+      "title": "CAPTCHA: Using hard AI problems for security",
+      "authors": ["Von Ahn, L.", "Blum, M.", "Hopper, N.J.", "Langford, J."],
+      "year": 2003,
+      "journal": "EUROCRYPT 2003, LNCS 2656",
+      "pages": "294-311"
+    },
+    "von_ahn_2004": {
+      "title": "Telling humans and computers apart automatically",
+      "authors": ["Von Ahn, L.", "Blum, M.", "Langford, J."],
+      "year": 2004,
+      "journal": "Commun. ACM",
+      "volume": "47",
+      "pages": "56-60"
+    },
+    "von_ahn_2008": {
+      "title": "reCAPTCHA: Human-based character recognition via web security measures",
+      "authors": ["Von Ahn, L.", "Maurer, B.", "McMillen, C.", "Abraham, D.", "Blum, M."],
+      "year": 2008,
+      "journal": "Science",
+      "volume": "321",
+      "pages": "1465-1468"
+    },
+    "turing_1950": {
+      "title": "Computing machinery and intelligence",
+      "authors": ["Turing, A.M."],
+      "year": 1950,
+      "journal": "Mind",
+      "volume": "59",
+      "pages": "433-460"
+    },
+    "goodfellow_2014": {
+      "title": "Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks",
+      "authors": ["Goodfellow, I.J.", "Bulatov, Y.", "Ibarz, J.", "Arnoud, S.", "Shet, V."],
+      "year": 2014,
+      "journal": "arXiv:1312.6082"
+    },
+    "naor_1996": {
+      "title": "Verification of a Human in the Loop or Identification via the Turing Test",
+      "authors": ["Naor, M."],
+      "year": 1996,
+      "journal": "Unpublished Notes"
+    },
+    "baird_2005": {
+      "title": "ScatterType: A legible but hard-to-segment CAPTCHA",
+      "authors": ["Baird, H.S.", "Moll, M.A.", "Wang, S.Y."],
+      "year": 2005,
+      "journal": "ICDAR 2005",
+      "pages": "935-939"
+    },
+    "stinson_2019": {
+      "title": "Cryptography: Theory and Practice",
+      "authors": ["Stinson, D.", "Paterson, M."],
+      "year": 2019,
+      "journal": "Chapman and Hall/CRC Press, 4th ed."
+    },
+    "sosnovski_2016": {
+      "title": "Cayley Graphs of Semigroups and Applications to Hashing",
+      "authors": ["Sosnovski, B."],
+      "year": 2016,
+      "journal": "Ph.D. Thesis, City University of New York"
+    },
+    "green_schroll_2017_varieties": {
+      "title": "Algebras and varieties",
+      "authors": ["Green, E.L.", "Hille, L.", "Schroll, S."],
+      "year": 2017,
+      "journal": "Algebr. Represent. Theor.",
+      "volume": "24",
+      "pages": "367-388"
+    },
+    "zemor_1991": {
+      "title": "Hash functions and graphs with large girths",
+      "authors": ["Zémor, G."],
+      "year": 1991,
+      "journal": "EUROCRYPT '91, LNCS 547",
+      "pages": "508-511"
+    },
+    "tillich_1994a": {
+      "title": "Group-theoretic hash functions",
+      "authors": ["Tillich, J.P.", "Zémor, G."],
+      "year": 1994,
+      "journal": "Algebraic Coding, LNCS 781",
+      "pages": "90-110"
+    },
+    "tillich_1994b": {
+      "title": "Hashing with SL_2",
+      "authors": ["Tillich, J.P.", "Zémor, G."],
+      "year": 1994,
+      "journal": "CRYPTO '94, LNCS 839",
+      "pages": "40-49"
+    },
+    "charles_2007": {
+      "title": "Cryptographic hash functions from expander graphs",
+      "authors": ["Charles, D.X.", "Lauter, K.E.", "Goren, E.Z."],
+      "year": 2007,
+      "journal": "J. Cryptol.",
+      "volume": "22",
+      "pages": "93-113"
+    },
+    "petit_2009": {
+      "title": "On Graph-Based Cryptographic Hash Functions",
+      "authors": ["Petit, C."],
+      "year": 2009,
+      "journal": "Ph.D. Thesis, Univ. Catholique de Louvain"
+    },
+    "lubotzky_1988": {
+      "title": "Ramanujan graphs",
+      "authors": ["Lubotzky, A.", "Phillips, R.", "Sarnak, P."],
+      "year": 1988,
+      "journal": "Combinatorica",
+      "volume": "3",
+      "pages": "261-277"
+    },
+    "propp_2020": {
+      "title": "The combinatorics of frieze patterns and Markoff numbers",
+      "authors": ["Propp, J."],
+      "year": 2020,
+      "journal": "Integers",
+      "volume": "20",
+      "pages": "1-38"
+    },
+    "canakci_schiffler_2018": {
+      "title": "Cluster algebras and continued fractions",
+      "authors": ["Çanakçi, I.", "Schiffler, R."],
+      "year": 2018,
+      "journal": "Compos. Math.",
+      "volume": "54",
+      "pages": "565-593"
+    },
+    "canakci_schiffler_2020": {
+      "title": "Snake graphs and continued fractions",
+      "authors": ["Çanakçi, I.", "Schiffler, R."],
+      "year": 2020,
+      "journal": "Eur. J. Combin.",
+      "volume": "86",
+      "pages": "1-19"
+    },
+    "canakci_schiffler_2013": {
+      "title": "Snake graphs calculus and cluster algebras from surfaces",
+      "authors": ["Çanakçi, I.", "Schiffler, R."],
+      "year": 2013,
+      "journal": "J. Algebra",
+      "volume": "382",
+      "pages": "240-281"
+    },
+    "canakci_schiffler_2015": {
+      "title": "Snake graphs calculus and cluster algebras from surfaces II: Self-crossings snake graphs",
+      "authors": ["Çanakçi, I.", "Schiffler, R."],
+      "year": 2015,
+      "journal": "Math. Z.",
+      "volume": "281",
+      "pages": "55-102"
+    },
+    "canakci_schiffler_2017": {
+      "title": "Snake graphs calculus and cluster algebras from surfaces III: Band graphs and snake rings",
+      "authors": ["Çanakçi, I.", "Schiffler, R."],
+      "year": 2017,
+      "journal": "Int. Math. Res. Not. IMRN",
+      "pages": "1-82"
+    },
+    "musiker_2011": {
+      "title": "Positivity for cluster algebras from surfaces",
+      "authors": ["Musiker, G.", "Schiffler, R.", "Williams, L."],
+      "year": 2011,
+      "journal": "Adv. Math.",
+      "volume": "227",
+      "pages": "2241-2308"
+    },
+    "canakci_schroll_2021": {
+      "title": "Lattice bijections for string modules snake graphs and the weak Bruhat order",
+      "authors": ["Çanakçi, I.", "Schroll, S."],
+      "year": 2021,
+      "journal": "Adv. Appl. Math.",
+      "volume": "126",
+      "pages": "102094"
+    },
+    "dergachev_2000": {
+      "title": "Index of Lie algebras of seaweed type",
+      "authors": ["Dergachev, V.", "Kirillov, A.D."],
+      "year": 2000,
+      "journal": "J. Lie Theory",
+      "volume": "10",
+      "pages": "331-343"
+    },
+    "seo_yee_2020": {
+      "title": "Index of a seaweed algebra and integer partitions",
+      "authors": ["Seo, S.", "Yee, A.J."],
+      "year": 2020,
+      "journal": "Electron. J. Comb.",
+      "volume": "27",
+      "pages": "P1.47"
+    },
+    "grinshpoun_2017": {
+      "title": "The representation of partially-concurrent open shop problems",
+      "authors": ["Grinshpoun, T.", "Ilani, H.", "Shufan, E."],
+      "year": 2017,
+      "journal": "Ann. Oper. Res.",
+      "volume": "252",
+      "pages": "455-469"
+    },
+    "gonzalez_1976": {
+      "title": "Open shop scheduling to minimize finish time",
+      "authors": ["Gonzalez, T.", "Sahni, S."],
+      "year": 1976,
+      "journal": "JACM",
+      "volume": "23",
+      "pages": "665-679"
+    },
+    "fiala_1983": {
+      "title": "An algorithm for the open-shop problem",
+      "authors": ["Fiala, T."],
+      "year": 1983,
+      "journal": "Math. Oper. Res.",
+      "volume": "8",
+      "pages": "100-109"
+    },
+    "taillard_1993": {
+      "title": "Benchmarks for basic scheduling problems",
+      "authors": ["Taillard, E."],
+      "year": 1993,
+      "journal": "Eur. J. Oper. Res.",
+      "volume": "64",
+      "pages": "278-285"
+    },
+    "smith_1970": {
+      "title": "Some properties of the spectrum of a graph",
+      "authors": ["Smith, J.H."],
+      "year": 1970,
+      "journal": "Combinatorial Structures and Their Applications",
+      "pages": "403-406"
+    },
+    "van_mieghem_2015": {
+      "title": "Accuracy criterion for the mean-field approximation in susceptible-infected-susceptible epidemics on networks",
+      "authors": ["Van Mieghem, P.", "Van de Bovenkamp, R."],
+      "year": 2015,
+      "journal": "Phys. Rev. E",
+      "volume": "91",
+      "pages": "032812"
+    },
+    "bolanos_2011": {
+      "title": "Quantifying the functional importance of neural assemblies in the brain using Laplacian Hückel graph energy",
+      "authors": ["Bolaños, M.E.", "Aviyente, S."],
+      "year": 2011,
+      "journal": "IEEE ICASSP 2011",
+      "pages": "753-756"
+    },
+    "belov_rowen_vishne_2021": {
+      "title": "Full quivers of representations of algebras",
+      "authors": ["Belov-Kanel, A.", "Rowen, L.H.", "Vishne, U."],
+      "year": 2021,
+      "journal": "Trans. Am. Math. Soc.",
+      "volume": "364",
+      "pages": "5525-5569"
+    },
+    "pugliese_2017": {
+      "title": "Complexity analysis of fractionated spacecraft architectures",
+      "authors": ["Pugliese, A.", "Nilchiani, R."],
+      "year": 2017,
+      "journal": "Am. Inst. Aeronaut. Astronaut. Space Forum",
+      "volume": "33",
+      "pages": "2721275"
+    },
+    "erdos_1973": {
+      "title": "On a combinatorial game",
+      "authors": ["Erdős, P.", "Selfridge, J.L."],
+      "year": 1973,
+      "journal": "J. Combin. Theory Sor. A",
+      "volume": "14",
+      "pages": "298-301"
+    },
+    "erickson_2009": {
+      "title": "AHA! Solutions",
+      "authors": ["Erickson, M."],
+      "year": 2009,
+      "journal": "MAA, Washington, DC"
+    },
+    "perla_1985": {
+      "title": "What wargaming is and is not",
+      "authors": ["Perla, P.P."],
+      "year": 1985,
+      "journal": "NWC-Rev.",
+      "volume": "38",
+      "pages": "70-78"
+    },
+    "cedo_2014": {
+      "title": "Braces and the Yang-Baxter equation",
+      "authors": ["Cedó, F.", "Jespers, E.", "Okninski, J."],
+      "year": 2014,
+      "journal": "Commun. Math. Phys.",
+      "volume": "327",
+      "pages": "101-116"
+    },
+    "nichita_2012": {
+      "title": "Introduction to the Yang-Baxter equation with open problems",
+      "authors": ["Nichita, F.F."],
+      "year": 2012,
+      "journal": "Axioms",
+      "volume": "1",
+      "pages": "33-37"
+    },
+    "nichita_2015": {
+      "title": "Yang-Baxter equations, computational methods and applications",
+      "authors": ["Nichita, F.F."],
+      "year": 2015,
+      "journal": "Axioms",
+      "volume": "4",
+      "pages": "423-435"
+    },
+    "massuyeau_2005": {
+      "title": "Yang-Baxter operators arising from algebra structures and the Alexander polynomial of knots",
+      "authors": ["Massuyeau, G.", "Nichita, F.F."],
+      "year": 2005,
+      "journal": "Comm. Algebra",
+      "volume": "33",
+      "pages": "2375-2385"
+    },
+    "kauffman_2004": {
+      "title": "Braiding operators are universal quantum gates",
+      "authors": ["Kauffman, L.H.", "Lomonaco, S.J."],
+      "year": 2004,
+      "journal": "New J. Phys.",
+      "volume": "6",
+      "pages": "134"
+    },
+    "turaev_1988": {
+      "title": "The Yang-Baxter equation and invariants of links",
+      "authors": ["Turaev, V."],
+      "year": 1988,
+      "journal": "Invent. Math.",
+      "volume": "92",
+      "pages": "527-533"
+    },
+    "coll_2015_3": {
+      "title": "Meander graphs and Frobenius seaweed Lie algebras II",
+      "authors": ["Coll, V.", "Hyatt, M.", "Magnant, C.", "Wang, H."],
+      "year": 2015,
+      "journal": "J. Gen. Lie Theory Appl.",
+      "volume": "9",
+      "pages": "1000227"
+    },
+    "coll_2015_4": {
+      "title": "Meander graphs and Frobenius seaweed Lie algebras III",
+      "authors": ["Coll, V.", "Hyatt, M.", "Magnant, C.", "Wang, H."],
+      "year": 2015,
+      "journal": "J. Gen. Lie Theory Appl.",
+      "volume": "9",
+      "pages": "1000266"
+    },
+    "coll_2020": {
+      "title": "Statistics on partitions arising from seaweed algebras",
+      "authors": ["Coll, V.", "Mayers, W.", "Mayers, N.W.", "Wang, H."],
+      "year": 2020,
+      "journal": "Electron. J. Comb.",
+      "volume": "27",
+      "pages": "P3.1"
+    },
+    "tauvel_2004": {
+      "title": "Sur l'indice de certaines algèbres de Lie",
+      "authors": ["Tauvel, P.", "Yu, R.W.T."],
+      "year": 2004,
+      "journal": "Ann. Inst. Fourier",
+      "volume": "54",
+      "pages": "1793-1810"
+    },
+    "joseph_2006": {
+      "title": "On semi-invariants and index for biparabolic (seaweed) algebras",
+      "authors": ["Joseph, A."],
+      "year": 2006,
+      "journal": "J. Algebra",
+      "volume": "305",
+      "pages": "487-515"
+    },
+    "stolin_1991": {
+      "title": "On rational solutions of Yang-Baxter equation for sl(n)",
+      "authors": ["Stolin, A."],
+      "year": 1991,
+      "journal": "Math. Scand.",
+      "volume": "69",
+      "pages": "57-80"
+    },
+    "gerstenhaber_2008": {
+      "title": "Graphs, Frobenius functionals, and the classical Yang-Baxter equation",
+      "authors": ["Gerstenhaber, M.", "Giaquinto, A."],
+      "year": 2008,
+      "journal": "arXiv:0808.2423"
+    },
+    "belavin_1982": {
+      "title": "Solutions of the classical Yang-Baxter equations for simple Lie algebras",
+      "authors": ["Belavin, A.A.", "Drinfeld, V.G."],
+      "year": 1982,
+      "journal": "Funct. Anal. Appl.",
+      "volume": "16",
+      "pages": "159-180"
+    },
+    "magnant_2011": {
+      "title": "Meander graphs and Frobenius seaweed Lie algebras",
+      "authors": ["Magnant, C.", "Coll, V.", "Giaquinto, A."],
+      "year": 2011,
+      "journal": "J. Gen. Lie Theory Appl.",
+      "volume": "5",
+      "pages": "1-7"
+    }
+  }
+}
