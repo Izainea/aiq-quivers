@@ -274,7 +274,7 @@ class TestBrauerAnalysis:
             "n_vertices", "n_polygons", "dimension", "center_dimension",
             "n_loops", "defect", "impact_factor_delta_B", "entropy_H_B",
             "valencies", "multiplicities", "truncated_vertices",
-            "nontruncated_vertices",
+            "univalent_vertices", "multivalent_vertices",
         }
         assert expected_keys == set(analysis.keys())
 

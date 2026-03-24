@@ -28,18 +28,26 @@ from .quiver import Quiver
 # Multiplicity strategies
 # ═══════════════════════════════════════════════════════════════════════
 
-def mu_standard(valency: dict[Hashable, int], **kwargs) -> dict[Hashable, int]:
+def mu_mnti(valency: dict[Hashable, int], **kwargs) -> dict[Hashable, int]:
     """
-    Standard multiplicity (Cañadas et al., 2024).
+    Minimum Non-Truncated Integer (MNTI) multiplicity.
 
-    μ(m) = 2 if val(m) = 1 (thematic anchor), μ(m) = 1 otherwise.
-    Ensures ω(m) = μ·val ≥ 2 for all vertices.
+    The pointwise smallest μ: Γ₀ → ℕ⁺ such that val(m)·μ(m) > 1
+    for every vertex m:
+        μ(m) = 2 if val(m) = 1,  μ(m) = 1 if val(m) ≥ 2.
 
-    In citation networks this is interpreted as a measure of thematic
-    specialization depth: specialized references (val=1) receive a
-    minimum weight reflecting their role as thematic anchors.
+    Under MNTI, ω(m) = μ·val ≥ 2 for all vertices and no vertex is
+    truncated (in the sense of Green & Schroll).
+
+    In citation networks, univalent vertices (val=1) are interpreted
+    as thematic anchors: specialized references whose depth contribution
+    is recognized by the minimum weight ω = 2.
     """
     return {v: 2 if val == 1 else 1 for v, val in valency.items()}
+
+
+# Backward-compatible alias
+mu_standard = mu_mnti
 
 
 def mu_uniform(valency: dict[Hashable, int], *, value: int = 1, **kwargs) -> dict[Hashable, int]:
@@ -85,7 +93,8 @@ def mu_from_data(
 
 
 MU_STRATEGIES = {
-    "standard": mu_standard,
+    "mnti": mu_mnti,
+    "standard": mu_mnti,      # backward-compatible alias
     "uniform": mu_uniform,
     "from_data": mu_from_data,
 }
@@ -110,7 +119,7 @@ class BrauerConfiguration:
     For citation networks (Zainea Maya & Moreno Cañadas, 2025):
       - Γ₀ = references (cited papers)
       - Γ₁ = articles (each is a multiset of its references)
-      - μ  = standard multiplicity (thematic specialization depth)
+      - μ  = MNTI multiplicity (thematic specialization depth)
       - O  = chronological order by publication year
 
     Parameters
@@ -122,7 +131,7 @@ class BrauerConfiguration:
         (may contain repeats = multiplicity within the multiset).
     mu : dict[Hashable, int] | str | callable | None
         Multiplicity function μ: Γ₀ → ℕ⁺.
-        - None or "standard": standard multiplicity (μ=2 if val=1, else 1).
+        - None, "mnti", or "standard": MNTI multiplicity (μ=2 if val=1, else 1).
         - "uniform": μ=1 for all vertices (may produce truncated vertices).
         - dict: explicit {vertex: int} mapping.
         - callable: function(valency_dict, **kwargs) → {vertex: int}.
@@ -169,8 +178,8 @@ class BrauerConfiguration:
         self._valency: dict[Hashable, int] = self._compute_valency()
 
         # ── Resolve multiplicity ──
-        if mu is None or mu == "standard":
-            self._mu = mu_standard(self._valency)
+        if mu is None or mu == "mnti" or mu == "standard":
+            self._mu = mu_mnti(self._valency)
         elif mu == "uniform":
             self._mu = mu_uniform(self._valency)
         elif isinstance(mu, str) and mu in MU_STRATEGIES:
@@ -285,12 +294,41 @@ class BrauerConfiguration:
         return dict(self._mu)
 
     def is_truncated(self, vertex: Hashable) -> bool:
-        """A vertex is truncated if val(m)·μ(m) = 1 (Green & Schroll, Def. 1.5)."""
+        """A vertex is truncated if val(m)·μ(m) = 1 (Green & Schroll, Def. 1.5).
+
+        Note: under MNTI multiplicity, no vertex is truncated.
+        """
         return self._valency[vertex] * self._mu.get(vertex, 1) == 1
 
     def is_nontruncated(self, vertex: Hashable) -> bool:
         """A vertex is non-truncated if val(m)·μ(m) > 1."""
         return self._valency[vertex] * self._mu[vertex] > 1
+
+    def is_univalent(self, vertex: Hashable) -> bool:
+        """A vertex is univalent if val(m) = 1 (independent of μ).
+
+        Univalent vertices generate loops in citation networks and
+        receive μ = 2 under the MNTI multiplicity.
+        """
+        return self._valency[vertex] == 1
+
+    def is_multivalent(self, vertex: Hashable) -> bool:
+        """A vertex is multivalent if val(m) ≥ 2 (independent of μ).
+
+        Multivalent vertices bridge multiple polygons and generate
+        non-loop arrows in the Brauer quiver.
+        """
+        return self._valency[vertex] >= 2
+
+    @property
+    def univalent_vertices(self) -> list:
+        """C_M = {m ∈ Γ₀ : val(m) = 1}."""
+        return [v for v in self._vertices if self._valency[v] == 1]
+
+    @property
+    def multivalent_vertices(self) -> list:
+        """Γ₀ \\ C_M = {m ∈ Γ₀ : val(m) ≥ 2}."""
+        return [v for v in self._vertices if self._valency[v] >= 2]
 
     # ── Conjunto de incidencia I_y ───────────────────────────────────
 
@@ -582,8 +620,11 @@ class BrauerConfiguration:
             "truncated_vertices": [
                 str(v) for v in self._vertices if self.is_truncated(v)
             ],
-            "nontruncated_vertices": [
-                str(v) for v in self._vertices if self.is_nontruncated(v)
+            "univalent_vertices": [
+                str(v) for v in self._vertices if self.is_univalent(v)
+            ],
+            "multivalent_vertices": [
+                str(v) for v in self._vertices if self.is_multivalent(v)
             ],
         }
 
@@ -608,8 +649,8 @@ class BrauerConfiguration:
         lines.append(f"  δ_B = {analysis['impact_factor_delta_B']}")
         lines.append(f"  H(B) = {analysis['entropy_H_B']:.6f}")
         lines.append(
-            f"  Truncados: {len(analysis['truncated_vertices'])}, "
-            f"No-truncados: {len(analysis['nontruncated_vertices'])}"
+            f"  Univalentes: {len(analysis['univalent_vertices'])}, "
+            f"Multivalentes: {len(analysis['multivalent_vertices'])}"
         )
         return "\n".join(lines)
 

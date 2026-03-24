@@ -28,7 +28,7 @@ from .impact import (
 from .automaton import AIQ
 from .brauer import (
     BrauerConfiguration, brauer_from_citation_json,
-    mu_standard, mu_uniform, mu_from_data, MU_STRATEGIES,
+    mu_mnti, mu_standard, mu_uniform, mu_from_data, MU_STRATEGIES,
 )
 from . import morphisms
 from . import visualization
