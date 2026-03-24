@@ -26,11 +26,14 @@ from .impact import (
     impact_rate_simple, impact_rate_enriched, impact_rate_signed,
 )
 from .automaton import AIQ
-from .brauer import BrauerConfiguration, brauer_from_citation_json
+from .brauer import (
+    BrauerConfiguration, brauer_from_citation_json,
+    mu_standard, mu_uniform, mu_from_data, MU_STRATEGIES,
+)
 from . import morphisms
 from . import visualization
 from . import datasets
 from . import validation
 from . import brauer
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

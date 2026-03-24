@@ -1,32 +1,94 @@
 """
-Configuraciones de Brauer y álgebras de configuración de Brauer (BCA).
+Brauer configurations and Brauer configuration algebras (BCA).
 
-Implementa la teoría de Brauer configuration algebras según:
-  - Green & Schroll (2011): definición original de BCA.
-  - Sierra (2018): fórmula para la dimensión del centro.
-  - Cañadas, Rodríguez-Nieto, Salazar Díaz (2024): BCA inducidas por
-    particiones enteras y aplicaciones a cubrimientos ramificados
-    (mathematics-12-03626-v2).
+Theory based on:
+  - Green & Schroll (2017): Definition 1.5 — conditions C1-C4.
+  - Sierra (2018): center dimension formula.
+  - Cañadas, Rodríguez-Nieto, Salazar Díaz (2024): BCA from integer
+    partitions, dimension formulas, and branched coverings.
 
-Conexión con AIQ:
-  El factor de impacto δ_B y la entropía H(B) de una configuración de Brauer
-  proporcionan invariantes algebraicos para redes de citación, complementando
-  la tasa de impacto dinámica del AIQ.
-
-Referencia manuscrita (Agustín Moreno Cañadas):
-  δ_B = Σ_{m∈M} μ(m)·val(m)
-  H(B) = -Σ_{m∈M} [μ(m)·val(m)/δ_B] · log₂[μ(m)·val(m)/δ_B]
+Invariants (Zainea Maya & Moreno Cañadas, 2025):
+  δ_B = Σ_{m∈M} μ(m)·val(m)          (Brauer impact factor)
+  H(B) = -Σ_{m∈M} p_m · log₂(p_m)    (Brauer entropy)
 """
 
 from __future__ import annotations
 
 import json
 import math
-from collections import Counter, defaultdict
+import warnings
+from collections import Counter
 from pathlib import Path
-from typing import Hashable, Optional
+from typing import Callable, Hashable, Optional, Union
 
 from .quiver import Quiver
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Multiplicity strategies
+# ═══════════════════════════════════════════════════════════════════════
+
+def mu_standard(valency: dict[Hashable, int], **kwargs) -> dict[Hashable, int]:
+    """
+    Standard multiplicity (Cañadas et al., 2024).
+
+    μ(m) = 2 if val(m) = 1 (thematic anchor), μ(m) = 1 otherwise.
+    Ensures ω(m) = μ·val ≥ 2 for all vertices.
+
+    In citation networks this is interpreted as a measure of thematic
+    specialization depth: specialized references (val=1) receive a
+    minimum weight reflecting their role as thematic anchors.
+    """
+    return {v: 2 if val == 1 else 1 for v, val in valency.items()}
+
+
+def mu_uniform(valency: dict[Hashable, int], *, value: int = 1, **kwargs) -> dict[Hashable, int]:
+    """
+    Uniform multiplicity: μ(m) = value for all m.
+
+    Warning: with value=1, vertices with val=1 will have ω=1 and be
+    truncated. Condition C3 is only satisfied if every polygon has at
+    least one vertex with val ≥ 2.
+    """
+    return {v: value for v in valency}
+
+
+def mu_from_data(
+    valency: dict[Hashable, int],
+    *,
+    vertex_data: dict[Hashable, dict],
+    field: str = "external_citations",
+    scale: Callable[[float], int] = lambda x: max(1, int(math.log2(x + 1)) + 1),
+    **kwargs,
+) -> dict[Hashable, int]:
+    """
+    Data-driven multiplicity: μ(m) derived from an external numeric field.
+
+    For citation networks, the field could be the external citation count,
+    h-index of the reference's authors, journal impact factor, etc.
+
+    Parameters
+    ----------
+    vertex_data : dict
+        {vertex: {field: numeric_value, ...}}
+    field : str
+        Key to read from vertex_data[m].
+    scale : callable
+        Function mapping the raw value to a positive integer μ.
+        Default: 1 + floor(log₂(x+1)), giving μ ∈ {1, 2, 3, ...}.
+    """
+    mu = {}
+    for v, val in valency.items():
+        raw = vertex_data.get(v, {}).get(field, 0)
+        mu[v] = scale(raw) if raw else (2 if val == 1 else 1)
+    return mu
+
+
+MU_STRATEGIES = {
+    "standard": mu_standard,
+    "uniform": mu_uniform,
+    "from_data": mu_from_data,
+}
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -35,45 +97,52 @@ from .quiver import Quiver
 
 class BrauerConfiguration:
     """
-    Configuración de Brauer  Γ = (Γ₀, Γ₁, μ, O).
+    Brauer configuration Γ = (Γ₀, Γ₁, μ, O).
 
-    En el contexto de sistemas de multiconjuntos (Remark 1 del paper):
-      - Γ₀ = M  (conjunto de vértices = elementos del conjunto base)
-      - Γ₁ = M₁ (colección de polígonos = multiconjuntos)
-      - μ: Γ₀ → ℕ⁺  (función de multiplicidad)
-      - O: orientación (orden cíclico en cada vértice)
+    Follows Green & Schroll (2017), Definition 1.5, with conditions:
+      (C1) Γ₀ is a finite set of vertices. Every vertex belongs to ≥1 polygon.
+      (C2) Γ₁ is a finite collection of multisets (polygons) over Γ₀.
+           Every polygon has ≥2 vertices.
+      (C3) μ: Γ₀ → ℕ⁺ is the multiplicity function. Every polygon has at
+           least one vertex m with val(m)·μ(m) > 1.
+      (C4) O is an orientation: cyclic ordering at each vertex.
 
-    Para redes de citación (instrucción de Agustín):
-      - Γ₀ = referencias (papers citados)
-      - Γ₁ = artículos de Cañadas (cada uno es un multiconjunto de sus refs)
-      - μ  derivada de la condición val(m)·μ(m) > 1
-      - O  = orden por año de publicación en las secuencias de sucesores
+    For citation networks (Zainea Maya & Moreno Cañadas, 2025):
+      - Γ₀ = references (cited papers)
+      - Γ₁ = articles (each is a multiset of its references)
+      - μ  = standard multiplicity (thematic specialization depth)
+      - O  = chronological order by publication year
 
     Parameters
     ----------
     vertices : list[Hashable]
-        Elementos de M (Γ₀). Cada vértice es un identificador hashable.
+        Elements of Γ₀.
     polygons : dict[Hashable, list[Hashable]]
-        Polígonos (Γ₁). Clave = nombre del polígono, valor = lista de vértices
-        que lo componen (puede contener repetidos = multiplicidad dentro
-        del multiconjunto). La lista debe estar ordenada según la orientación O.
-    mu : dict[Hashable, int] | None
-        Función de multiplicidad μ: Γ₀ → ℕ⁺. Si None, se calcula automáticamente
-        según la regla: μ(m) = 2 si val(m) = 1, μ(m) = 1 en otro caso
-        (para garantizar val(m)·μ(m) > 1).
+        Polygons (Γ₁). Key = polygon name, value = list of vertices
+        (may contain repeats = multiplicity within the multiset).
+    mu : dict[Hashable, int] | str | callable | None
+        Multiplicity function μ: Γ₀ → ℕ⁺.
+        - None or "standard": standard multiplicity (μ=2 if val=1, else 1).
+        - "uniform": μ=1 for all vertices (may produce truncated vertices).
+        - dict: explicit {vertex: int} mapping.
+        - callable: function(valency_dict, **kwargs) → {vertex: int}.
     vertex_data : dict[Hashable, dict] | None
-        Metadatos opcionales por vértice (e.g. year, title, authors).
+        Optional metadata per vertex (e.g. year, title, authors).
     polygon_data : dict[Hashable, dict] | None
-        Metadatos opcionales por polígono.
+        Optional metadata per polygon.
+    validate : bool
+        If True (default), validates conditions C1, C2, C3 and warns
+        on violations. Set to False to skip validation.
     """
 
     def __init__(
         self,
         vertices: list[Hashable],
         polygons: dict[Hashable, list[Hashable]],
-        mu: Optional[dict[Hashable, int]] = None,
+        mu: Optional[Union[dict[Hashable, int], str, Callable]] = None,
         vertex_data: Optional[dict] = None,
         polygon_data: Optional[dict] = None,
+        validate: bool = True,
     ):
         self._vertices = list(vertices)
         self._v_set = set(vertices)
@@ -81,12 +150,12 @@ class BrauerConfiguration:
         self._vertex_data = vertex_data or {}
         self._polygon_data = polygon_data or {}
 
-        # Validar que todos los vértices de polígonos existen en Γ₀
+        # ── Validate vertices in polygons ──
         for pname, pvertices in self._polygons.items():
             for v in pvertices:
                 if v not in self._v_set:
                     raise ValueError(
-                        f"Vértice '{v}' del polígono '{pname}' no está en Γ₀"
+                        f"Vertex '{v}' of polygon '{pname}' not in Γ₀"
                     )
 
         # Pre-compute incidence index: vertex → [(polygon_name, multiplicity)]
@@ -96,19 +165,68 @@ class BrauerConfiguration:
             for v, c in counts.items():
                 self._incidence[v].append((pname, c))
 
-        # Calcular valencias
+        # Compute valencies
         self._valency: dict[Hashable, int] = self._compute_valency()
 
-        # Función de multiplicidad
-        if mu is not None:
+        # ── Resolve multiplicity ──
+        if mu is None or mu == "standard":
+            self._mu = mu_standard(self._valency)
+        elif mu == "uniform":
+            self._mu = mu_uniform(self._valency)
+        elif isinstance(mu, str) and mu in MU_STRATEGIES:
+            self._mu = MU_STRATEGIES[mu](
+                self._valency, vertex_data=self._vertex_data)
+        elif callable(mu):
+            self._mu = mu(self._valency, vertex_data=self._vertex_data)
+        elif isinstance(mu, dict):
             self._mu = dict(mu)
         else:
-            self._mu = self._default_mu()
+            raise ValueError(
+                f"mu must be None, a strategy name ({list(MU_STRATEGIES)}), "
+                f"a dict, or a callable. Got: {type(mu)}"
+            )
+
+        # ── Validate C1, C2, C3 ──
+        if validate:
+            self._validate_configuration()
 
         # Caches
         self._successor_seqs: Optional[dict] = None
         self._brauer_quiver: Optional[Quiver] = None
         self._n_loops: Optional[int] = None
+
+    def _validate_configuration(self):
+        """Validate conditions C1, C2, C3 from Green & Schroll (2017)."""
+        # C1: every vertex belongs to at least one polygon
+        for v in self._vertices:
+            if not self._incidence[v]:
+                warnings.warn(
+                    f"C1 violation: vertex '{v}' does not belong to any polygon.",
+                    stacklevel=3,
+                )
+
+        for pname, pvertices in self._polygons.items():
+            # C2: every polygon has at least two vertices
+            distinct = len(set(pvertices))
+            if distinct < 2:
+                warnings.warn(
+                    f"C2 violation: polygon '{pname}' has only "
+                    f"{distinct} distinct vertex(es).",
+                    stacklevel=3,
+                )
+
+            # C3: every polygon has at least one vertex with val·μ > 1
+            has_nontruncated = False
+            for v in set(pvertices):
+                if self._valency[v] * self._mu.get(v, 1) > 1:
+                    has_nontruncated = True
+                    break
+            if not has_nontruncated:
+                warnings.warn(
+                    f"C3 violation: polygon '{pname}' has no vertex m with "
+                    f"val(m)·μ(m) > 1. All its vertices are truncated.",
+                    stacklevel=3,
+                )
 
     # ── Propiedades básicas ──────────────────────────────────────────
 
@@ -154,26 +272,24 @@ class BrauerConfiguration:
     # ── Multiplicidad μ ──────────────────────────────────────────────
 
     def _default_mu(self) -> dict[Hashable, int]:
-        """
-        Multiplicidad por defecto: μ(m) = 2 si val(m) = 1, μ(m) = 1 si no.
-        Esto garantiza val(m)·μ(m) > 1 para todo m no truncado.
-        (Sección 2.4 del paper)
-        """
-        return {
-            v: 2 if self._valency[v] == 1 else 1
-            for v in self._vertices
-        }
+        """Standard multiplicity (backward compatibility)."""
+        return mu_standard(self._valency)
 
     def mu(self, vertex: Hashable) -> int:
-        """Multiplicidad μ(m) del vértice m."""
+        """Multiplicity μ(m) of vertex m."""
         return self._mu.get(vertex, 1)
 
+    @property
+    def mu_dict(self) -> dict[Hashable, int]:
+        """Full multiplicity dictionary {vertex: μ(m)}."""
+        return dict(self._mu)
+
     def is_truncated(self, vertex: Hashable) -> bool:
-        """Un vértice es truncado si val(m) = 1 (aparece en un solo polígono)."""
-        return self._valency[vertex] == 1
+        """A vertex is truncated if val(m)·μ(m) = 1 (Green & Schroll, Def. 1.5)."""
+        return self._valency[vertex] * self._mu.get(vertex, 1) == 1
 
     def is_nontruncated(self, vertex: Hashable) -> bool:
-        """Un vértice es no-truncado si val(m)·μ(m) > 1."""
+        """A vertex is non-truncated if val(m)·μ(m) > 1."""
         return self._valency[vertex] * self._mu[vertex] > 1
 
     # ── Conjunto de incidencia I_y ───────────────────────────────────
