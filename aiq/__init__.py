@@ -36,4 +36,4 @@ from . import datasets
 from . import validation
 from . import brauer
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
