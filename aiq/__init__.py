@@ -16,6 +16,7 @@ Módulos:
   datasets      — Ejemplos del paper + datasets Cora y cit-HepPh
   validation    — Validación temporal con datos de citación reales
   brauer        — Configuraciones de Brauer y BCA (Green-Schroll, Cañadas et al.)
+  gnn           — Atención algebraica, entropía de caminos, puente con PyG
 """
 
 from .quiver import Quiver
@@ -35,5 +36,6 @@ from . import visualization
 from . import datasets
 from . import validation
 from . import brauer
+from . import gnn
 
 __version__ = "1.1.1"
