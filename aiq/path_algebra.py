@@ -340,21 +340,67 @@ class Ideal:
         """
         Reducir un elemento módulo I usando las reglas de reescritura.
         Retorna el representante canónico en kQ/I.
+
+        Soporta sustitución de sub-caminos: si la regla dice p_lead → reemplazo,
+        y un camino q contiene p_lead como sub-camino (q = left · p_lead · right),
+        entonces q se reescribe como left · reemplazo · right.
         """
         changed = True
         current = dict(element.terms)
         max_iter = 100
         iteration = 0
+        quiver = self.algebra.quiver
         while changed and iteration < max_iter:
             changed = False
             iteration += 1
-            for lead, replacement in self._rules:
-                if lead in current and abs(current[lead]) > 1e-12:
-                    coeff = current.pop(lead)
-                    for p, c in replacement.items():
-                        current[p] = current.get(p, 0.0) + coeff * c
-                    changed = True
+            new_terms: dict[Path, float] = {}
+            for path, coeff in list(current.items()):
+                if abs(coeff) < 1e-12:
+                    continue
+                rewritten = False
+                for lead, replacement in self._rules:
+                    # Exact match (original behavior)
+                    if path == lead:
+                        for p, c in replacement.items():
+                            new_terms[p] = new_terms.get(p, 0.0) + coeff * c
+                        rewritten = True
+                        changed = True
+                        break
+                    # Sub-path match: find lead's arrows inside path's arrows
+                    pos = self._find_subpath_position(path, lead)
+                    if pos is not None:
+                        left_arrows = path.arrows[:pos]
+                        right_arrows = path.arrows[pos + lead.length:]
+                        for rep_path, rep_coeff in replacement.items():
+                            mid_arrows = rep_path.arrows
+                            composed_arrows = left_arrows + mid_arrows + right_arrows
+                            if composed_arrows:
+                                composed = Path(quiver, arrows=composed_arrows)
+                            else:
+                                composed = Path(quiver, vertex=path.source)
+                            new_terms[composed] = (
+                                new_terms.get(composed, 0.0) + coeff * rep_coeff
+                            )
+                        rewritten = True
+                        changed = True
+                        break
+                if not rewritten:
+                    new_terms[path] = new_terms.get(path, 0.0) + coeff
+            current = new_terms
         return PathAlgebraElement(current)
+
+    @staticmethod
+    def _find_subpath_position(path: Path, subpath: Path) -> Optional[int]:
+        """Find first position where subpath's arrows appear in path, or None."""
+        if subpath.length == 0 or subpath.length > path.length:
+            return None
+        sub_arrows = subpath.arrows
+        path_arrows = path.arrows
+        n = len(sub_arrows)
+        for i in range(len(path_arrows) - n + 1):
+            if path_arrows[i:i + n] == sub_arrows:
+                return i
+        return None
 
     def is_admissible(self) -> bool:
         """
