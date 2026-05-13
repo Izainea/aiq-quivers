@@ -17,6 +17,7 @@ Módulos:
   validation    — Validación temporal con datos de citación reales
   brauer        — Configuraciones de Brauer y BCA (Green-Schroll, Cañadas et al.)
   gnn           — Atención algebraica, entropía de caminos, puente con PyG
+  scienti       — Cargadores para datos del scraper Scienti (CvLAC, GrupLAC)
 """
 
 from .quiver import Quiver
@@ -37,5 +38,6 @@ from . import datasets
 from . import validation
 from . import brauer
 from . import gnn
+from . import scienti
 
-__version__ = "1.1.1"
+__version__ = "1.2.0"

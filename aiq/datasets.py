@@ -573,3 +573,20 @@ def load_canadas_citation_network():
 
     bc = brauer_from_citation_json(json_path)
     return bc, raw_data
+
+
+# ═══════════════════════════════════════════════════════════════════════
+# Datos del scraper Scienti (Minciencias) — CvLAC y GrupLAC
+# ═══════════════════════════════════════════════════════════════════════
+
+# Re-exportados desde aiq.scienti para que vivan en la API canónica de
+# datasets junto con Cora, cit-HepPh y la red de Cañadas.
+from .scienti import (  # noqa: E402
+    load_cvlac_records,
+    load_gruplac_records,
+    load_coauthorship_quiver,
+    load_group_member_quiver,
+    load_researcher_group_quiver,
+    load_research_line_quiver,
+    load_scienti_brauer_config,
+)

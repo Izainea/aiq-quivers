@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "aiq-quivers"
-version = "1.1.1"
+version = "1.2.0"
 description = "Impact Automata on Quivers (AIQ) — An algebraic framework for modeling dynamics on complex systems"
 readme = "README.md"
 license = "MIT"
@@ -56,7 +56,7 @@ Issues = "https://github.com/Izainea/aiq-quivers/issues"
 include = ["aiq*"]
 
 [tool.setuptools.package-data]
-aiq = ["../data/*.json", "../data/cora/*", "../data/cit-hepph/*"]
+aiq = ["../data/canadas_citation_network.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

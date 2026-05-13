@@ -1,5 +1,20 @@
 include README.md
 include LICENSE
+include CHANGELOG.md
 include requirements.txt
-recursive-include data *.json *.txt *.cites *.content
+include data/canadas_citation_network.json
 recursive-include aiq *.py
+recursive-include tests *.py
+exclude data/cora/*
+exclude data/cit-hepph/*
+exclude *.ipynb
+exclude scholar_agent
+recursive-exclude scholar_agent *
+exclude graph_neural_network
+recursive-exclude graph_neural_network *
+prune dist
+prune build
+prune .venv
+prune .pytest_cache
+prune .github
+prune ProyectoCitaciones
