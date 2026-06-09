@@ -282,10 +282,14 @@ class AIQMorphism:
     def is_algebraic_morphism(self) -> bool:
         """
         Verifica condición (A): kf(I) ⊆ I'.
-        Requiere que ambos AIQs tengan quotient con ideal.
 
-        Nota: implementación simplificada — verifica que la imagen
-        de cada generador del ideal I está en I'.
+        Para cada generador g = Σ aᵢ pᵢ de I, construye su imagen
+        kf(g) = Σ aᵢ f_1(α_{i,1})·…·f_1(α_{i,n}) en kQ', la reduce módulo
+        I' y comprueba que el representante canónico es cero. Si todas las
+        imágenes se anulan en kQ'/I', entonces kf(I) ⊆ I'.
+
+        Requiere que ambos AIQs tengan quotient con ideal; en otro caso es
+        vacuamente verdadero.
         """
         if self.source.quotient is None or self.target.quotient is None:
             return True  # Vacuamente verdadero
@@ -296,25 +300,36 @@ class AIQMorphism:
         if source_ideal is None or target_ideal is None:
             return True
 
-        # Para cada generador de I, verificar que su imagen bajo kf está en I'
-        # Esto requiere traducir caminos: camino p = α_1·...·α_n se mapea a
-        # f_1(α_1)·...·f_1(α_n)
+        from .path_algebra import Path, PathAlgebraElement
+
+        target_quiver = self.target.quiver
+
+        # Para cada generador de I, mapear término a término y reducir en I'.
+        # camino p = α_1·…·α_n  ↦  f_1(α_1)·…·f_1(α_n)
         for gen in source_ideal.generators:
-            # gen es un PathAlgebraElement
-            # Traducir cada camino
+            image_terms: dict[Path, float] = {}
             for path, coeff in gen.terms.items():
                 if path.length == 0:
-                    continue
-                # Mapear cada flecha del camino
-                try:
-                    mapped_arrows = []
-                    for arrow_name in path.arrows:
-                        mapped_arrows.append(self.f.arrow_map[arrow_name])
-                except KeyError:
-                    return False
+                    # f del idempotente e_v es e_{f_0(v)}.
+                    image_path = Path(target_quiver,
+                                      vertex=self.f.vertex_map[path.source])
+                else:
+                    try:
+                        mapped_arrows = [self.f.arrow_map[a] for a in path.arrows]
+                    except KeyError:
+                        return False
+                    # Path valida concatenabilidad; si f_1 no respeta la
+                    # estructura el constructor lanzará ValueError.
+                    try:
+                        image_path = Path(target_quiver, arrows=mapped_arrows)
+                    except ValueError:
+                        return False
+                image_terms[image_path] = image_terms.get(image_path, 0.0) + coeff
 
-            # Verificación completa requeriría construir el elemento
-            # en kQ' y verificar pertenencia a I' — simplificado aquí.
+            image = PathAlgebraElement(image_terms)
+            reduced = target_ideal.reduce(image)
+            if not reduced.is_zero():
+                return False
 
         return True
 

@@ -361,8 +361,15 @@ class Quiver:
         weights = {}
         counter = 0
         if isinstance(G, nx.MultiDiGraph):
+            used_names: set = set()
             for u, v, key, data in G.edges(keys=True, data=True):
-                name = str(key) if key else f"a_{counter}"
+                # Preservar la clave explícita (incl. key == 0), pero
+                # garantizar unicidad: las claves por defecto de NetworkX
+                # (0, 1, …) se repiten entre distintos pares (u, v).
+                name = str(key) if key is not None else f"a_{counter}"
+                if name in used_names:
+                    name = f"a_{counter}"
+                used_names.add(name)
                 arrows.append((name, u, v))
                 if weight_attr in data:
                     weights[name] = int(data[weight_attr])

@@ -7,6 +7,7 @@ con Relaciones), Proposición 2.2 (invariante algebraico).
 
 from __future__ import annotations
 
+import warnings
 from collections import defaultdict
 from typing import Optional
 
@@ -143,8 +144,14 @@ class PathAlgebraElement:
             result[p] = result.get(p, 0.0) - c
         return PathAlgebraElement(result)
 
-    def __mul__(self, other: PathAlgebraElement) -> PathAlgebraElement:
-        """Producto por concatenación extendido linealmente."""
+    def __mul__(self, other) -> PathAlgebraElement:
+        """Producto por concatenación extendido linealmente.
+
+        Si ``other`` es un escalar numérico, se interpreta como producto
+        escalar (coherente con ``__rmul__``).
+        """
+        if isinstance(other, (int, float)):
+            return PathAlgebraElement({p: c * other for p, c in self.terms.items()})
         result: dict[Path, float] = {}
         for p1, c1 in self.terms.items():
             for p2, c2 in other.terms.items():
@@ -387,6 +394,14 @@ class Ideal:
                 if not rewritten:
                     new_terms[path] = new_terms.get(path, 0.0) + coeff
             current = new_terms
+        if changed and iteration >= max_iter:
+            warnings.warn(
+                f"Ideal.reduce alcanzó max_iter={max_iter} sin converger; "
+                "el resultado puede no ser una forma normal. La reducción "
+                "garantiza corrección solo para relaciones monomiales "
+                "homogéneas no solapadas.",
+                stacklevel=2,
+            )
         return PathAlgebraElement(current)
 
     @staticmethod

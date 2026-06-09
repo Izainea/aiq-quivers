@@ -40,4 +40,4 @@ from . import brauer
 from . import gnn
 from . import scienti
 
-__version__ = "1.2.0"
+__version__ = "1.2.1"

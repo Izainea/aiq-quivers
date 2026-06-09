@@ -283,14 +283,19 @@ def run_temporal_aiq_cohort(
     if parallel and n_runs > 1:
         _nw = n_workers or min(os.cpu_count() or 4, n_runs)
         try:
-            ctx = mp.get_context("fork")
+            # Prefer "fork" (cheap, available on Linux); fall back to the
+            # platform default context ("spawn" on Windows/macOS).
+            try:
+                ctx = mp.get_context("fork")
+            except ValueError:
+                ctx = mp.get_context()
             with ProcessPoolExecutor(max_workers=_nw, mp_context=ctx) as pool:
                 results = list(pool.map(_mc_single_run, tasks))
             for r, fracs in enumerate(results):
                 fractions[r, :len(fracs)] = fracs
             done = True
-        except (RuntimeError, mp.context.BaseContext.AuthenticationError):
-            # fork context not available (e.g. macOS, Windows); fall back
+        except (ValueError, RuntimeError, ImportError, OSError):
+            # Parallel execution not available; fall back to sequential.
             pass
 
     if not done:
@@ -536,7 +541,7 @@ def validate_obsolescence_timing(
     lt = compute_empirical_lifetime(quiver, metadata)
 
     rows = []
-    for cy in cohort_years:
+    for i, cy in enumerate(cohort_years):
         # Empírico
         cohort_lt = lt[lt["pub_year"] == cy]
         if len(cohort_lt) < 5:
@@ -549,12 +554,13 @@ def validate_obsolescence_timing(
                 quiver, metadata, cy,
                 n_steps=n_steps, n_runs=n_runs,
                 beta=beta, recovery_prob=recovery_prob,
-                g_max=g_max, seed=seed,
+                g_max=g_max, seed=seed + i,
             )
             # Encontrar paso donde fraction_R < 0.5
             below_half = aiq_df[aiq_df["mean_fraction_R"] < 0.5]
             aiq_step = below_half["t"].iloc[0] if len(below_half) > 0 else n_steps
-        except (ValueError, Exception):
+        except ValueError:
+            # No hay papers de la cohorte en el quiver.
             aiq_step = None
 
         rows.append({

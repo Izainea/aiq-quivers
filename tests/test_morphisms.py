@@ -135,3 +135,46 @@ class TestAIQMorphism:
         mu = AIQMorphism(aiq1, aiq2, f, tau)
         r = repr(mu)
         assert "4→4" in r
+
+
+# ── is_algebraic_morphism (condición A: kf(I) ⊆ I') ──────────────────────
+
+class TestAlgebraicMorphism:
+    def _aiq_with_ideal(self, q, generators):
+        from aiq.path_algebra import PathAlgebra, Ideal, QuotientAlgebra
+        kQ = PathAlgebra(q)
+        quotient = QuotientAlgebra(kQ, Ideal(kQ, generators))
+        return AIQ(q, states=["S", "I"], evolution_rule="SI",
+                   g_max=2, quotient=quotient)
+
+    def test_vacuously_true_without_quotient(self, q4):
+        aiq1 = AIQ(q4, states=["S", "I"], evolution_rule="SI", g_max=2)
+        aiq2 = AIQ(q4, states=["S", "I"], evolution_rule="SI", g_max=2)
+        mu = AIQMorphism(aiq1, aiq2, identity_morphism(q4), {"S": "S", "I": "I"})
+        assert mu.is_algebraic_morphism() is True
+
+    def test_identity_maps_ideal_into_itself(self, q4):
+        # I = I' = ⟨α₁ − α₂⟩; bajo la identidad la imagen del generador
+        # se reduce a 0 en I', así que kf(I) ⊆ I'.
+        from aiq.path_algebra import Path, PathAlgebraElement
+        gen = PathAlgebraElement({
+            Path(q4, arrows=["α₁"]): 1.0,
+            Path(q4, arrows=["α₂"]): -1.0,
+        })
+        aiq1 = self._aiq_with_ideal(q4, [gen])
+        aiq2 = self._aiq_with_ideal(q4, [gen])
+        mu = AIQMorphism(aiq1, aiq2, identity_morphism(q4), {"S": "S", "I": "I"})
+        assert mu.is_algebraic_morphism() is True
+
+    def test_image_not_in_target_ideal(self, q4):
+        # I = ⟨α₁ − α₂⟩ pero I' = ⟨0⟩ (vacío): la imagen α₁ − α₂ no es 0
+        # en kQ'/I', así que la condición (A) falla.
+        from aiq.path_algebra import Path, PathAlgebraElement
+        gen = PathAlgebraElement({
+            Path(q4, arrows=["α₁"]): 1.0,
+            Path(q4, arrows=["α₂"]): -1.0,
+        })
+        aiq1 = self._aiq_with_ideal(q4, [gen])
+        aiq2 = self._aiq_with_ideal(q4, [])  # ideal trivial
+        mu = AIQMorphism(aiq1, aiq2, identity_morphism(q4), {"S": "S", "I": "I"})
+        assert mu.is_algebraic_morphism() is False

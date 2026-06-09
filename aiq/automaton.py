@@ -205,21 +205,32 @@ class AIQ:
 
     # ── Evolución ─────────────────────────────────────────────────────
 
-    def step(self, seed: Optional[int] = None) -> dict:
+    def step(
+        self,
+        seed: Optional[int] = None,
+        rng: Optional[np.random.Generator] = None,
+    ) -> dict:
         """
         Ejecuta un paso de evolución sincrónica.
 
         Parameters
         ----------
         seed : int or None
-            Semilla para reproducibilidad.
+            Semilla para un paso aislado y reproducible. Ignorado si se
+            pasa ``rng``. Si ambos son ``None`` el paso usa entropía del
+            sistema (no reproducible).
+        rng : np.random.Generator or None
+            Generador persistente. Pasarlo permite encadenar pasos sobre
+            un único stream (ver ``run``), preservando la independencia
+            estadística entre pasos.
 
         Returns
         -------
         dict
             Nueva configuración.
         """
-        rng = np.random.default_rng(seed)
+        if rng is None:
+            rng = np.random.default_rng(seed)
         new_config = self._apply_rule(rng)
         self._config = new_config
         self._orbit.append(dict(new_config))
@@ -229,8 +240,9 @@ class AIQ:
         """
         Ejecuta n_steps pasos de evolución.
 
-        Usa semillas deterministas derivadas de la semilla base para
-        reproducibilidad completa.
+        Encadena todos los pasos sobre un único generador derivado de la
+        semilla base, garantizando reproducibilidad y manteniendo la
+        independencia estadística entre pasos.
 
         Parameters
         ----------
@@ -245,9 +257,8 @@ class AIQ:
             Órbita completa (incluyendo configuración inicial).
         """
         base_rng = np.random.default_rng(seed)
-        step_seeds = base_rng.integers(0, 2**31, size=n_steps)
-        for i in range(n_steps):
-            self.step(seed=int(step_seeds[i]))
+        for _ in range(n_steps):
+            self.step(rng=base_rng)
         return list(self._orbit)
 
     # ── Estadísticas ──────────────────────────────────────────────────
@@ -257,7 +268,11 @@ class AIQ:
         cfg = config or self._config
         counts = {s: 0 for s in self.states}
         for v in cfg.values():
-            counts[v] = counts.get(v, 0) + 1
+            if v not in counts:
+                raise ValueError(
+                    f"Estado '{v}' no está en el alfabeto Σ = {self.states}"
+                )
+            counts[v] += 1
         return counts
 
     def orbit_table(self) -> pd.DataFrame:

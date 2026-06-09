@@ -195,6 +195,11 @@ class BrauerConfiguration:
                 f"a dict, or a callable. Got: {type(mu)}"
             )
 
+        # Ensure μ covers every vertex (default μ(m)=1) so downstream
+        # formulas can index self._mu[v] safely for any v ∈ Γ_0.
+        for v in self._vertices:
+            self._mu.setdefault(v, 1)
+
         # ── Validate C1, C2, C3 ──
         if validate:
             self._validate_configuration()
@@ -486,10 +491,20 @@ class BrauerConfiguration:
 
     def n_loops(self) -> int:
         """
-        Número de loops en Q_M.
-        Un loop ocurre en el polígono Mᵢ cuando un vértice y tiene
-        multiplicidad fᵢ(y) > 1 dentro de Mᵢ, generando flechas internas.
-        Cached during brauer_quiver() construction.
+        Número de self-loops en el quiver de Brauer Q_M.
+
+        Las flechas de Q_M conectan entradas consecutivas de la secuencia
+        de sucesores (cíclica) de cada vértice y ∈ Γ_0 (ver
+        ``brauer_quiver``). Un self-loop aparece cada vez que dos entradas
+        consecutivas Mᵢ → Suc(Mᵢ) recaen en el mismo polígono. Esto ocurre
+        en dos situaciones:
+
+        - y es univalente (val(y) = 1): su secuencia tiene un único
+          elemento M^(1) y el ciclo Suc(M^(1)) = M^(1) produce un loop.
+        - y aparece de forma consecutiva en el mismo polígono dentro de la
+          secuencia de sucesores.
+
+        Calculado y cacheado durante ``brauer_quiver()``.
         """
         if self._n_loops is None:
             self.brauer_quiver()  # triggers computation and caches _n_loops
@@ -499,22 +514,24 @@ class BrauerConfiguration:
 
     def center_dimension(self) -> int:
         """
-        dim_k Z(Λ_M) = 1 + Σ_{m∈M} μ(m) + |M₁| - |M| + #Loops(Q_M) - |C_M|
-        donde C_M = {m ∈ M | val(m) = 1} y μ(m) > 1.
-        (Fórmula 23 del paper, Remark 2 (B₇))
+        dim_k Z(Λ_M) = 1 + |M₁| - |M| + Σ_{m∈M} μ(m) + #Loops(Q_M) - |C_M|
+
+        donde C_M = {m ∈ M | val(m) = 1} (vértices truncados).
+
+        Fórmula de Sierra (2018), "The dimension of the center of a Brauer
+        configuration algebra", J. Algebra; ver también Remark 2 (B₇) del
+        paper. Nótese que C_M depende sólo de val(m) = 1, sin condición
+        sobre μ.
         """
         sum_mu = sum(self._mu[v] for v in self._vertices)
         n_poly = self.n_polygons
         n_vert = self.n_vertices
         loops = self.n_loops()
 
-        # C_M: vértices con val = 1 y μ > 1 (los truncados con μ forzado)
-        c_m = sum(
-            1 for v in self._vertices
-            if self._valency[v] == 1 and self._mu[v] > 1
-        )
+        # C_M: vértices con val(m) = 1 (vértices truncados de M).
+        c_m = sum(1 for v in self._vertices if self._valency[v] == 1)
 
-        return 1 + sum_mu + n_poly - n_vert + loops - c_m
+        return 1 + n_poly - n_vert + sum_mu + loops - c_m
 
     # ── Factor de impacto δ_B — Fórmula manuscrita ──────────────────
 
@@ -782,8 +799,7 @@ def example_compositions_B7() -> BrauerConfiguration:
     """
     Ejemplo 7 del paper: composiciones de tipo B(j,m;7).
 
-    L₁ = {4,2,1}, L₂ = {4,1,1,1}, L₃ = {2,2,2,1},
-    L₄ = {2,2,1,1,1}, L₅ = {2,1,1,1,1,1}, L₆ = {1,1,1,1,1,1,1}
+    L₁ = {4,2,1}, L₂ = {4,1,1,1}, L₃ = {2,2,2,1}, L₄ = {2,2,1,1,1}
 
     M = {1,2,4}, M₁ = {L₁,L₂,L₃,L₄}
     val(1) = 8, val(2) = 6, val(4) = 2

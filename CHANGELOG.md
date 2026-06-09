@@ -4,6 +4,36 @@ All notable changes to `aiq-quivers` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] — 2026-06-08
+
+Bug-fix release: mathematical-correctness and portability fixes found in a full
+review of the package. All 206 tests pass; 4 regression tests added.
+
+### Fixed
+- `morphisms.py`: `AIQMorphism.is_algebraic_morphism()` was a stub that always
+  returned `True`. It now maps each ideal generator into `kQ'`, reduces it
+  modulo `I'`, and checks the result is zero — actually verifying `kf(I) ⊆ I'`.
+  Covered by `tests/test_morphisms.py::TestAlgebraicMorphism`.
+- `brauer.py`: `center_dimension` used a wrong `C_M` (it required
+  `val(m) == 1 and μ(m) > 1`). Per Sierra (2018), `C_M = {m : val(m) = 1}` with
+  no `μ` condition; corrected. `__init__` now `setdefault(v, 1)` over all
+  vertices so `center_dimension`/`impact_factor`/`entropy` no longer `KeyError`
+  on an incomplete custom `mu` dict. `n_loops()` docstring rewritten to match the
+  actual cyclic-successor construction. Results now pinned in tests.
+- `validation.py`: Windows crash fixed — `mp.get_context("fork")` is tried and
+  falls back to the platform default (spawn) on `ValueError`; the bogus
+  `mp.context.BaseContext.AuthenticationError` reference is gone and the except
+  clause is now `(ValueError, RuntimeError, ImportError, OSError)`. The broad
+  `except (ValueError, Exception)` is narrowed to `except ValueError`, and each
+  cohort uses `seed + i` (Monte-Carlo noise was correlated across cohorts).
+- `automaton.py`: `run()` now threads a single `np.random.Generator` through all
+  steps (added an optional `rng=` parameter to `step()`) instead of re-seeding a
+  fresh generator per step; `state_counts` raises on states outside `Σ`.
+- `quiver.py`: `from_networkx` uses `key is not None` (so MultiDiGraph edge key
+  `0` is handled) and dedupes arrow names against collisions.
+- `path_algebra.py`: `PathAlgebraElement.__mul__` accepts a numeric scalar, and
+  `Ideal.reduce` warns when it hits `max_iter` without converging.
+
 ## [1.2.0] — 2026-05-12
 
 ### Added
@@ -36,5 +66,6 @@ and the project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.
 
 Initial public release on PyPI (status snapshot prior to this changelog).
 
+[1.2.1]: https://github.com/Izainea/aiq-quivers/releases/tag/v1.2.1
 [1.2.0]: https://github.com/Izainea/aiq-quivers/releases/tag/v1.2.0
 [1.1.1]: https://github.com/Izainea/aiq-quivers/releases/tag/v1.1.1

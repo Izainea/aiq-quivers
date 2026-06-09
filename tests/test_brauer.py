@@ -199,9 +199,27 @@ class TestDimension:
         assert dim == 45
 
     def test_center_dimension_p10(self, bc_p10):
+        # Fórmula de Sierra (2018):
+        # dim Z = 1 + |M₁| - |M| + Σμ(m) + #Loops - |C_M|
+        # |M₁| = 3 polígonos, |M| = 4 vértices,
+        # Σμ(m) = 2+1+1+1 = 5,
+        # #Loops = 10 (de las secuencias de sucesores),
+        # C_M = {m | val(m)=1} = {1}  ⇒ |C_M| = 1.
+        # = 1 + 3 - 4 + 5 + 10 - 1 = 14
         cd = bc_p10.center_dimension()
-        assert isinstance(cd, int)
-        assert cd > 0
+        assert cd == 14
+
+    def test_center_dimension_C_M_independent_of_mu(self):
+        # C_M depende sólo de val(m)=1, NO de μ. Con μ uniforme (μ≡1)
+        # el vértice 1 (val=1) sigue contando en C_M.
+        bc = BrauerConfiguration(
+            vertices=[1, 2, 3, 4],
+            polygons={"L1": [4, 4, 2], "L2": [3, 3, 3, 1], "L3": [2, 2, 2, 2, 2]},
+            mu="uniform",
+        )
+        # Σμ = 4, |M₁|=3, |M|=4, #Loops=10, |C_M|=1
+        # = 1 + 3 - 4 + 4 + 10 - 1 = 13
+        assert bc.center_dimension() == 13
 
 
 # ── Impact factor δ_B ────────────────────────────────────────────────
@@ -413,6 +431,21 @@ class TestMultiplicityStrategies:
             mu={1: 5, 2: 1, 3: 1, 4: 1},
         )
         assert bc.mu(1) == 5
+
+    def test_incomplete_dict_mu_defaults_to_one(self):
+        # μ dict que omite vértices: los faltantes deben tomar μ=1 y las
+        # fórmulas que indexan self._mu[v] directamente no deben fallar.
+        bc = BrauerConfiguration(
+            vertices=[1, 2, 3, 4],
+            polygons={"L1": [4, 4, 2], "L2": [3, 3, 3, 1], "L3": [2, 2, 2, 2, 2]},
+            mu={1: 5},  # 2, 3, 4 omitidos
+        )
+        assert bc.mu(1) == 5
+        assert bc.mu(2) == 1
+        # Ninguna de estas fórmulas debe lanzar KeyError.
+        assert isinstance(bc.center_dimension(), int)
+        assert bc.impact_factor() >= 0
+        assert bc.entropy() >= 0
 
     def test_mu_dict_property(self, bc_p10):
         d = bc_p10.mu_dict
